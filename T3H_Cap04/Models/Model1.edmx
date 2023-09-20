@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Model1.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="Model1StoreContainer">
+    <EntitySet Name="AlunosMFSet" EntityType="Model1.Store.AlunosMFSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="NotasSet" EntityType="Model1.Store.NotasSet" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="AlunosMFNotas" Association="Model1.Store.AlunosMFNotas">
+      <End Role="AlunosMF" EntitySet="AlunosMFSet" />
+      <End Role="Notas" EntitySet="NotasSet" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="AlunosMFSet">
+    <Key>
+      <PropertyRef Name="Cod" />
+    </Key>
+    <Property Name="Cod" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nome" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="Endereco" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Idade" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="CEP" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="NotasSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Idaluno" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Nota" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="AlunosMFCod" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="AlunosMFNotas">
+    <End Role="AlunosMF" Type="Model1.Store.AlunosMFSet" Multiplicity="1" />
+    <End Role="Notas" Type="Model1.Store.NotasSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AlunosMF">
+        <PropertyRef Name="Cod" />
+      </Principal>
+      <Dependent Role="Notas">
+        <PropertyRef Name="AlunosMFCod" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="Model1" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="Model1Container" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AlunosMFSet" EntityType="Model1.AlunosMF" />
+          <EntitySet Name="NotasSet" EntityType="Model1.Notas" />
+          <AssociationSet Name="AlunosMFNotas" Association="Model1.AlunosMFNotas">
+            <End Role="AlunosMF" EntitySet="AlunosMFSet" />
+            <End Role="Notas" EntitySet="NotasSet" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="AlunosMF">
+          <Key>
+            <PropertyRef Name="Cod" />
+          </Key>
+          <Property Name="Cod" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nome" Type="String" Nullable="false" MaxLength="50" />
+          <Property Name="Endereco" Type="String" Nullable="false" />
+          <Property Name="Idade" Type="String" Nullable="false" />
+          <Property Name="CEP" Type="String" Nullable="false" />
+          <NavigationProperty Name="Notas" Relationship="Model1.AlunosMFNotas" FromRole="AlunosMF" ToRole="Notas" />
+        </EntityType>
+        <EntityType Name="Notas">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Idaluno" Type="String" Nullable="false" />
+          <Property Name="Nota" Type="String" Nullable="false" />
+          <NavigationProperty Name="AlunosMF" Relationship="Model1.AlunosMFNotas" FromRole="Notas" ToRole="AlunosMF" />
+          <Property Name="AlunosMFCod" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="AlunosMFNotas">
+          <End Type="Model1.AlunosMF" Role="AlunosMF" Multiplicity="1" />
+          <End Type="Model1.Notas" Role="Notas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AlunosMF">
+              <PropertyRef Name="Cod" />
+            </Principal>
+            <Dependent Role="Notas">
+              <PropertyRef Name="AlunosMFCod" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="Model1StoreContainer" CdmEntityContainer="Model1Container">
+    <EntitySetMapping Name="AlunosMFSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Model1.AlunosMF)">
+        <MappingFragment StoreEntitySet="AlunosMFSet">
+          <ScalarProperty Name="Cod" ColumnName="Cod" />
+          <ScalarProperty Name="Nome" ColumnName="Nome" />
+          <ScalarProperty Name="Endereco" ColumnName="Endereco" />
+          <ScalarProperty Name="Idade" ColumnName="Idade" />
+          <ScalarProperty Name="CEP" ColumnName="CEP" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="NotasSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Model1.Notas)">
+        <MappingFragment StoreEntitySet="NotasSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Idaluno" ColumnName="Idaluno" />
+          <ScalarProperty Name="Nota" ColumnName="Nota" />
+          <ScalarProperty Name="AlunosMFCod" ColumnName="AlunosMFCod" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
